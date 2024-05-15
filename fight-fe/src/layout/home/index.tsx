@@ -74,7 +74,7 @@ const Home = () => {
         </Menu>
       </Sider>
       <Layout>
-        <Header style={{ paddingLeft: 20 }}>Header</Header>
+        <Header style={{ paddingLeft: 20 }}>Fight FE</Header>
         <Layout style={{ padding: "0 24px" }}>
           <Breadcrumb style={{ margin: "16px 0" }}>
             <Breadcrumb.Item>Home</Breadcrumb.Item>

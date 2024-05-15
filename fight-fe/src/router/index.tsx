@@ -3,6 +3,7 @@
  */
 import { createBrowserRouter } from "react-router-dom";
 import Home from "../layout/home";
+import content from "./content.json";
 
 export interface IRouterMap {
   path: string;
@@ -18,6 +19,23 @@ export interface IChildRouterMap extends IRouterMap {
   parentpath?: string; // 父级路径 用于面包屑和回显两个逻辑 如果是三级菜单 那么parentpath = /一级路径/二级路径 以此类推
 }
 
+const contentRouter = Object.keys(content).map((item) => {
+  return {
+    path: `/${item}`,
+    title: { ...content }[item]?.title,
+    auth: item,
+    children: { ...content }[item]?.list.map((temp) => {
+      const { title, key } = temp;
+      return {
+        path: key,
+        title,
+        auth: item + "_" + title,
+        element: <div>{`${item}_${title}`}</div>,
+      };
+    }),
+  };
+});
+
 export const routerList: IRouterMap[] = [
   {
     path: "/",
@@ -27,30 +45,31 @@ export const routerList: IRouterMap[] = [
     element: <Home />,
     children: [
       {
-        path: "/page1",
-        title: "page1",
-        auth: "0_1",
+        path: "/homepage",
+        title: "首页",
+        auth: "homepage",
         element: <div>page1</div>,
       },
-      {
-        path: "/page2",
-        title: "page2",
-        auth: "0_2",
-        element: <div>page2</div>,
-      },
-      {
-        path: "/page3",
-        title: "page3",
-        auth: "0_3",
-        children: [
-          {
-            path: "son1",
-            title: "son1",
-            auth: "0_3_1",
-            element: <div>son1</div>,
-          },
-        ],
-      },
+      ...contentRouter,
+      //   {
+      //     path: "/articles",
+      //     title: "面试八股",
+      //     auth: "articles",
+      //     element: <div>page2</div>,
+      //   },
+      //   {
+      //     path: "/code",
+      //     title: "手写代码",
+      //     auth: "code",
+      //     children: [
+      //       {
+      //         path: "son1",
+      //         title: "son1",
+      //         auth: "0_3_1",
+      //         element: <div>son1</div>,
+      //       },
+      //     ],
+      //   },
     ],
   },
 ];
